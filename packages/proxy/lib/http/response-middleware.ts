@@ -69,6 +69,7 @@ function reqWillRenderHtml (req: CypressIncomingRequest) {
   // will this request be rendered in the browser, necessitating injection?
   // https://github.com/cypress-io/cypress/issues/288
 
+  // TODO: explore
   // don't inject if this is an XHR from jquery
   if (req.headers['x-requested-with']) {
     return

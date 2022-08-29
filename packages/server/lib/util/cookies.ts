@@ -93,7 +93,13 @@ export class CookieJar {
   }
 
   removeAllCookies () {
+    const a = this._cookieJar.toJSON()
+
     this._cookieJar.removeAllCookiesSync()
+
+    const b = this._cookieJar.toJSON()
+
+    return undefined
   }
 }
 

@@ -52,6 +52,20 @@ const MaybeAttachCrossOriginCookies: RequestMiddleware = function () {
 
   this.req.headers['cookie'] = addCookieJarCookiesToRequest(applicableCookiesInCookieJar, cookiesOnRequestString)
 
+  if (this.req.proxiedUrl.includes('https://accounts.google.com/signin/oauth/consent?authuser')) {
+    // debugger
+    this.req.headers['sec-fetch-dest'] = 'document'
+    this.req.headers['sec-fetch-site'] = 'same-origin'
+    /**
+     * TODO: ADD this into the cookie check work. we also need to simulate sec-* headers based on aut. overall same strat as simulating top
+     *   -H 'Sec-Fetch-Dest: document' \
+  -H 'Sec-Fetch-Mode: navigate' \
+  -H 'Sec-Fetch-Site: cross-site' \
+  TODO: run with edge and see if it fixes the recaptcha
+  looks like recaptcha fixed in exlectron
+     */
+  }
+
   this.debug('cookies being sent with request: %s', this.req.headers['cookie'])
   this.next()
 }

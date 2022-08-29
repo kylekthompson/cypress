@@ -435,6 +435,10 @@ module.exports = {
     // set both because why not
     webContents.userAgent = userAgent
 
+    webContents.debugger.sendCommand('Network.setUserAgentOverride', {
+      userAgent,
+    })
+
     return webContents.session.setUserAgent(userAgent)
   },
 
