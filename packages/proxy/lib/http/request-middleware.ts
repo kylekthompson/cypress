@@ -52,7 +52,11 @@ const MaybeAttachCrossOriginCookies: RequestMiddleware = function () {
 
   this.req.headers['cookie'] = addCookieJarCookiesToRequest(applicableCookiesInCookieJar, cookiesOnRequestString)
 
-  if (this.req.proxiedUrl.includes('https://accounts.google.com/signin/oauth/consent?authuser')) {
+  // if (this.req.proxiedUrl.includes('https://accounts.google.com/_/lookup/accountlookup')) {
+  //   debugger
+  // }
+
+  if (this.req.headers['sec-fetch-mode'] === 'navigate' && this.req.isAUTFrame) {
     // debugger
     this.req.headers['sec-fetch-dest'] = 'document'
     this.req.headers['sec-fetch-site'] = 'same-origin'

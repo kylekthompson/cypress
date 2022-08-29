@@ -381,6 +381,7 @@ const OmitProblematicHeaders: ResponseMiddleware = function () {
     'content-security-policy',
     'content-security-policy-report-only',
     'connection',
+    'vary',
   ])
 
   this.res.set(headers)
