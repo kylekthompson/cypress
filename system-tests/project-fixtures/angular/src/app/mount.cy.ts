@@ -8,6 +8,7 @@ import { ButtonOutputComponent } from "./components/button-output.component";
 import { createOutputSpy } from 'cypress/angular';
 import { EventEmitter, Component } from '@angular/core';
 import { ProjectionComponent } from "./components/projection.component";
+import { LifecycleComponent } from "./components/lifecycle.component";
 
 @Component({
   template: `<app-projection>Hello World</app-projection>`
@@ -164,7 +165,28 @@ describe("angular mount", () => {
     })
     cy.get('h3').contains('Hello World')
   })
-  
+
+  it('handles ngOnChanges on mount', () => {
+    cy.mount(LifecycleComponent, {
+      componentProperties: {
+        name: 'Angular'
+      }
+    })
+
+    cy.get('p').should('have.text', 'Hi Angular. ngOnInit fired: true and ngOnChanges fired: true')
+  })
+
+  it('handles ngOnChanges on mount', () => {
+    cy.mount('<app-lifecycle [name]="name"></app-lifecycle>', {
+      declarations: [LifecycleComponent],
+      componentProperties: {
+        name: 'Angular'
+      }
+    })
+
+    cy.get('p').should('have.text', 'Hi Angular. ngOnInit fired: true and ngOnChanges fired: true')
+  })
+
   describe("teardown", () => {
     beforeEach(() => {
       cy.get("[id^=root]").should("not.exist");

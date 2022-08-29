@@ -210,10 +210,9 @@ function setupFixture<T> (
  * @param {ComponentFixture<T>} fixture Fixture for debugging and testing a component.
  * @returns {T} Component being mounted
  */
-function setupComponent<T> (
+function setupComponent<T extends { ngOnChanges? (): void }> (
   config: MountConfig<T>,
-  fixture: ComponentFixture<T>,
-): T {
+  fixture: ComponentFixture<T>): T {
   let component: T = fixture.componentInstance
 
   if (config?.componentProperties) {
@@ -228,6 +227,10 @@ function setupComponent<T> (
         component[key] = createOutputSpy(`${key}Spy`)
       }
     })
+  }
+
+  if (component.ngOnChanges) {
+    component.ngOnChanges()
   }
 
   return component
